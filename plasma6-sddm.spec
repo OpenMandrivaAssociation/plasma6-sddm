@@ -4,7 +4,7 @@ Name: plasma6-sddm
 Summary: Lightweight display manager
 Version: 0.19.1
 %if %{date}
-Release: 0.%{date}.1
+Release: 0.%{date}.2
 # Packaged from git for the time being -- no download URL available
 # git archive --format=tar --prefix sddm-0.18.1-$(date +%Y%m%d)/ HEAD | xz -vf > sddm-0.18.1-$(date +%Y%m%d).tar.xz
 Source0: https://github.com/sddm/sddm/archive/develop/%{name}-%{version}-%{date}.tar.gz
@@ -63,7 +63,8 @@ Lightweight display manager (login screen).
 %endif
 
 sed -i -e 's,system-login,system-auth,g' services/*.pam
-
+export CC=gcc
+export CXX=g++
 %cmake_kde5 \
     -DBUILD_WITH_QT6:BOOL=ON \
     -DSESSION_COMMAND:FILEPATH=/etc/X11/Xsession \
@@ -73,6 +74,8 @@ sed -i -e 's,system-login,system-auth,g' services/*.pam
     -DUID_MAX="60000"
 
 %build
+export CC=gcc
+export CXX=g++
 %ninja -C build
 
 %install
